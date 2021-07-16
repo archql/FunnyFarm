@@ -68,7 +68,7 @@ Item {
 
                     deletedN++
                 } else
-                    console.log("PIVSEH HAXOI DOLBOIB!")
+                    console.log("Storage is full!")
             }
         }
         repaint(deletedN)

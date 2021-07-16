@@ -1,12 +1,13 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.0
 
 Rectangle {
     property int s_WIDTH: 8
     property int s_HEIGTH: 5
     property int level: 2
 
-    property var inStock: []
-    property var sets: []
+    property var inStock: [] // it is total amount of items dep on id
+    property var sets: [] // [item_id][amount]
 
     color: "wheat"
 
@@ -39,12 +40,26 @@ Rectangle {
     Repeater {
         id: itemsDrawer //drawes all on field
         model: s_WIDTH * s_HEIGTH
-        width: parent.width
-        height: parent.height
-        Rectangle {
+        anchors.fill: parent
+        delegate: Rectangle {
             id: itemsElement
             radius: 13
             color: "red"
+            height: 0
+            //property alias value: amountProgress.value
+            //property alias amountVisible: amountProgress.visible
+//            ProgressBar {
+//                id: amountProgress
+//                anchors.bottom: parent.bottom
+//                anchors.left: parent.left
+//                //anchors.right: parent.right
+//                //width: itemsElement.width
+
+//                height: itemsElement ? itemsElement.height * 0.1 : 0
+//                //y: itemsElement ? itemsElement.height * 0.9 : 0
+//                //width: itemsElement ? itemsElement.width : 0
+//                //visible: parent.visible
+//           }
         }
     }
 
@@ -67,6 +82,9 @@ Rectangle {
                                 setNumber).y = height - sHeight * (iy + 1)
 
                     itemsDrawer.itemAt(setNumber).color = items.basic[i].color
+
+                    //itemsDrawer.itemAt(setNumber).value = sets[i][j] / level
+                    //itemsDrawer.itemAt(setNumber).amountVisible = true
                     setNumber++
                 }
             }
@@ -74,18 +92,19 @@ Rectangle {
         for (i = setNumber; i < s_WIDTH * s_HEIGTH; i++) {
             itemsDrawer.itemAt(i).width = 0
             itemsDrawer.itemAt(i).height = 0
+            //itemsDrawer.itemAt(i).amountVisible = false
         }
     }
 
     function sell(id, amount) {
-        console.log("SEEEELL")
+        console.log("sell")
         var takedPrice = 0
 
         if (amount <= inStock[id]) {
             inStock[id] -= amount
             takedPrice += amount * items.basic[id].price
 
-            sets[id] = []
+            sets[id] = [] // reset
             addToSets(id, inStock[id])
 
             redraw()
@@ -114,8 +133,8 @@ Rectangle {
             //check what to do
             if (sets[id].length <= 0
                     || sets[id][sets[id].length - 1] === level) {
-                //push if no elements or stack overflowed
-                if (len + 1 > s_WIDTH * s_HEIGTH)
+                //push if no elements or full
+                if (len >= s_WIDTH * s_HEIGTH)
                     return false
                 console.log("PUSH!")
 

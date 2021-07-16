@@ -5,6 +5,5 @@
         <file>Transport.qml</file>
         <file>Items.qml</file>
         <file>Storage.qml</file>
-        <file>ProgressBar.qml</file>
     </qresource>
 </RCC>

@@ -67,13 +67,9 @@ Item {
         model: 50
         Rectangle {
             id: gras
-            width: 250
-            height: 75
-            x: -600
-            color: index <= grass.length ? (grass[grass.length].food
+            color: index < grass.length ? (grass[grass.length].food
                                             > 5 ? "green" : (grass[grass.length].food
                                                              > 0 ? "lime" : "sienna")) : "00000000"
-            y: -300
         }
     }
     Repeater {
@@ -84,7 +80,7 @@ Item {
             width: index < numb ? your[index].sizeX : 0
             height: index < numb ? your[index].sizeY : 0
             x: index < numb ? your[index].x : -500
-            color: index <= numb ? (your[index].color) : "00000000" /*your[index].foodCollected === your[index].foodNeeded ? "yellow" : */
+            color: index < numb ? (your[index].color) : "00000000" /*your[index].foodCollected === your[index].foodNeeded ? "yellow" : */
             y: index < numb ? your[index].y : -250
         }
     }
@@ -266,11 +262,11 @@ Item {
         //prevents animal from escaping
         if (your[i].x <= 0) {
             your[i].dirx = 5
-        } else if (your[i].x >= 750) {
+        } else if (your[i].x >= width) {
             your[i].dirx = -5
         } else if (your[i].y <= 0) {
             your[i].diry = 5
-        } else if (your[i].y >= 500) {
+        } else if (your[i].y >= height) {
             your[i].diry = -5
         } ///////////////////////////////
     }
@@ -299,10 +295,10 @@ Item {
                 if (your[i].foodCollected === your[i].foodNeeded) {
                     chickens.itemAt(i).color = Qt.darker(
                                 chickens.itemAt(i).color, 1.13) //!TIMED
-                    console.log("yellow!!!")
+                    console.log("enough food for produce item!!!")
                 } else {
                     chickens.itemAt(i).color = your[i].color
-                    console.log("white!!!")
+                    console.log("not enough food!!!")
                 }
                 your[i].diry = getRandomInt(3) - 1
                 your[i].dirx = getRandomInt(3) - 1

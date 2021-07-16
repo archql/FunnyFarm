@@ -35,7 +35,6 @@ RESOURCES += \
 
 DISTFILES += \
     Animals.qml \
-    ProgressBar.qml \
     Storage.qml \
     Transport.qml \
     maingf.qml \
